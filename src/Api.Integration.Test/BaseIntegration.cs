@@ -4,6 +4,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using Api.CrossCuttin.Mappings;
+using Api.CrossCutting.Mappings;
 using Api.Data.Context;
 using Api.Domain.DTOs;
 using application;

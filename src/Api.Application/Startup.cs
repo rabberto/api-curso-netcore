@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Api.CrossCuttin.DependencyInjection;
 using Api.CrossCuttin.Mappings;
+using Api.CrossCutting.Mappings;
 using Api.Data.Context;
 using Api.Service.Security;
 using AutoMapper;

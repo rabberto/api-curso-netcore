@@ -1,3 +1,6 @@
+using Api.Domain.Interfaces.Services.Cep;
+using Api.Domain.Interfaces.Services.Municipio;
+using Api.Domain.Interfaces.Services.Uf;
 using Api.Domain.Interfaces.Services.User;
 using Api.Domain.Services;
 using Api.Service.Services;
@@ -11,6 +14,10 @@ namespace Api.CrossCuttin.DependencyInjection
         {
             serviceCollection.AddTransient<IUserService, UserService>();
             serviceCollection.AddTransient<ILoginService, LoginService>();
+
+            serviceCollection.AddTransient<IUfService, UfService>();
+            serviceCollection.AddTransient<IMunicipioService, MunicipioService>();
+            serviceCollection.AddTransient<ICepService, CepService>();
         }
     }
 }

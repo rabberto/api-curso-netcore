@@ -1,5 +1,6 @@
 using System;
 using Api.CrossCuttin.Mappings;
+using Api.CrossCutting.Mappings;
 using AutoMapper;
 
 namespace Api.Service.Test
