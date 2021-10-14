@@ -23,7 +23,7 @@ namespace Api.Data.Text
         {
             var serviceCollection = new ServiceCollection();
             serviceCollection.AddDbContext<MyContext>(o =>
-                o.UseMySql($"Persist Security Info=True;Server=localhost;Database={dataBaseName};User=root;Password=8&r1@NH@"),
+                o.UseMySql($"Persist Security Info=True;Server=localhost;Database={dataBaseName};User=root;Password=8&r1@NH@", new MySqlServerVersion(new Version(5, 7, 33))),
                 ServiceLifetime.Transient
                 );
 

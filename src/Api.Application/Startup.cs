@@ -95,7 +95,7 @@ namespace application
                 c.SwaggerDoc("v1", new OpenApiInfo
                 {
                     Version = "v1",
-                    Title = "Curso AspNetCore com AspNetCore 3.1",
+                    Title = "Curso AspNetCore com .NET5.0",
                     Description = "Curso NetCore 3.1",
                     TermsOfService = new Uri("https://www.google.com/"),
                     Contact = new OpenApiContact
@@ -145,7 +145,7 @@ namespace application
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("swagger/v1/swagger.json", "Curso Api NetCore");
+                c.SwaggerEndpoint("swagger/v1/swagger.json", "Curso AspNetCore com .NET5.0");
                 c.RoutePrefix = string.Empty;
             });
 

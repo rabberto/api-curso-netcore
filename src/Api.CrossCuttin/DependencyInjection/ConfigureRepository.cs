@@ -6,7 +6,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Api.Domain.Repository;
 using System;
-using System.Collections;
+using Pomelo.EntityFrameworkCore.MySql.Infrastructure;
+using Microsoft.Extensions.Options;
 
 namespace Api.CrossCuttin.DependencyInjection
 {
@@ -24,13 +25,14 @@ namespace Api.CrossCuttin.DependencyInjection
             if (Environment.GetEnvironmentVariable("DATABASE").ToLower() == "MYSQL".ToLower())
             {
                 serviceCollection.AddDbContext<MyContext>(
-                   options => options.UseMySql(Environment.GetEnvironmentVariable("DB_CONNECTION"))
-                   );
+                     options => options.UseMySql(Environment.GetEnvironmentVariable("DB_CONNECTION"), new MySqlServerVersion(new Version(5, 7, 33)))
+                    );
+                //   
             }
             else
             {
                 serviceCollection.AddDbContext<MyContext>(
-                    options => options.UseMySql("Server=localhost;Port=3306;Database=dbCurso;Uid=root;Pwd=8&r1@NH@")
+                    options => options.UseMySql("Server=localhost;Port=3306;Database=dbCurso;Uid=root;Pwd=8&r1@NH@", new MySqlServerVersion(new Version(5, 7, 33)))
                     );
             }
         }
