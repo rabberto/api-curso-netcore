@@ -22,16 +22,28 @@ namespace application
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        public Startup(IConfiguration configuration, IWebHostEnvironment environment)
         {
             Configuration = configuration;
+            _enviroment = environment;
         }
 
         public IConfiguration Configuration { get; }
-
+        public IWebHostEnvironment _enviroment { get; }
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            if (_enviroment.IsEnvironment("Testing"))
+            {
+                Environment.SetEnvironmentVariable("DB_CONNECTION", "Persist Security Info=True;Server=localhost;Port=3306;Database=dbCurso_Integration;Uid=root;Pwd=8&r1@NH@");
+                Environment.SetEnvironmentVariable("DATABASE", "MYSQL");
+                Environment.SetEnvironmentVariable("MIGRATION", "APPLY");
+                Environment.SetEnvironmentVariable("Audience", "teste1234Audience");
+                Environment.SetEnvironmentVariable("Issuer", "teste1234Issuer");
+                Environment.SetEnvironmentVariable("Seconds", "3600");
+            }
+            services.AddControllers();
+
             ConfigureService.CongifureDependenciesService(services);
             ConfigureRepository.ConfigureDependenciesRepository(services);
 
@@ -48,11 +60,6 @@ namespace application
             var signingConfigurations = new SigningConfigurations();
             services.AddSingleton(signingConfigurations);
 
-            var tokenConfigurations = new TokenConfigurations();
-            new ConfigureFromConfigurationOptions<TokenConfigurations>(
-                Configuration.GetSection("TokenConfigurations")).Configure(tokenConfigurations);
-            services.AddSingleton(tokenConfigurations);
-
             services.AddAuthentication(authOptions =>
             {
                 authOptions.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -61,13 +68,20 @@ namespace application
             {
                 var paramsValidation = bearerOptions.TokenValidationParameters;
                 paramsValidation.IssuerSigningKey = signingConfigurations.Key;
-                paramsValidation.ValidAudience = tokenConfigurations.Audience;
-                paramsValidation.ValidIssuer = tokenConfigurations.Issuer;
+                paramsValidation.ValidAudience = Environment.GetEnvironmentVariable("Audience");
+                paramsValidation.ValidIssuer = Environment.GetEnvironmentVariable("Issuer");
+                // Valida a assinatura de um token recebido
                 paramsValidation.ValidateIssuerSigningKey = true;
+                // Verifica se um token recebido ainda é válido
                 paramsValidation.ValidateLifetime = true;
+                // Tempo de tolerância para a expiração de um token (utilizado
+                // caso haja problemas de sincronismo de horário entre diferentes
+                // computadores envolvidos no processo de comunicação)
                 paramsValidation.ClockSkew = TimeSpan.Zero;
             });
 
+            // Ativa o uso do token como forma de autorizar o acesso
+            // a recursos deste projeto
             services.AddAuthorization(auth =>
             {
                 auth.AddPolicy("Bearer", new AuthorizationPolicyBuilder()
@@ -75,7 +89,6 @@ namespace application
                             .RequireAuthenticatedUser().Build());
             });
 
-            services.AddControllers();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo

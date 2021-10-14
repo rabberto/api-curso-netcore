@@ -28,7 +28,7 @@ namespace Api.Service.Services
         {
             // return _mapper.Map<UserDto>(await _repoditory.SelectAsync(id));
             var entity = await _repoditory.SelectAsync(id);
-            return _mapper.Map<UserDto>(entity) ?? new UserDto();
+            return _mapper.Map<UserDto>(entity);
         }
 
         public async Task<IEnumerable<UserDto>> GetAll()
