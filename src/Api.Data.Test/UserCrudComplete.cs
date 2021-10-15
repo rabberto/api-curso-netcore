@@ -35,7 +35,7 @@ namespace Api.Data.Test
                 Assert.NotNull(_registerCreated);
                 Assert.Equal(_entity.Email, _registerCreated.Email);
                 Assert.Equal(_entity.Name, _registerCreated.Name);
-                Assert.False(_entity.CreateAt == null);
+                Assert.False(_entity.CreateAt.Equals(null));
                 Assert.False(_registerCreated.Id == System.Guid.Empty);
 
                 _entity.Name = Faker.Name.First();
