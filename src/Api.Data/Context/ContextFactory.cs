@@ -9,7 +9,7 @@ namespace Api.Data.Context
     {
         public MyContext CreateDbContext(string[] args)
         {
-            var connectionString = "Server=localhost;Port=3306;Database=dbCurso;Uid=root;Pwd=8&r1@NH@";
+            var connectionString = "Server=localhost;Port=3306;Database=dbCurso;Uid=root;Pwd=******";
             var optionsBuilder = new DbContextOptionsBuilder<MyContext>();
             optionsBuilder.UseMySql(connectionString, new MySqlServerVersion(new Version(8, 0, 21)),
                 mySqlOptions => mySqlOptions.CharSetBehavior(CharSetBehavior.NeverAppend)
